@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en"> 
+    <head> 
+        <meta charset="UTF-8">
+        <title> Black Belt </title>
+    </head>
+    <body>
+        <h1> Hello, {{ current_user.username }}! </h1>
+        <a id="logout" href="{% url 'login_app:logout' %}"> Logout </a>
+        <h2> Your trip schedules </h2>
+        <table style="width:100%">
+            <tr> 
+                <th> Desination </th>
+                <th> Travel Start Date </th>
+                <th> Travel End Date </th>
+                <th> Plan </th>
+            </tr>
+            {% for plan in all_plans %}
+                {% if plan.owner_id.id == current_user.id %}
+                    <tr> 
+                        <th> <a href="{% url 'belt_app:show' id=plan.id %}"> {{ plan.destination }} </a> </th>
+                        <th> {{ plan.date_from }} </th>
+                        <th> {{ plan.date_to }} </th>
+                        <th> {{ plan.description }} </th>
+                    </tr>
+                {% endif %}
+                {% if plan.id in joining %}
+                    <tr> 
+                        <th> <a href="{% url 'belt_app:show' id=plan.id %}"> {{ plan.destination }} </a> </th>
+                        <th> {{ plan.date_from }} </th>
+                        <th> {{ plan.date_to }} </th>
+                        <th> {{ plan.description }} </th>
+                    </tr>
+                {% endif %}
+            {% endfor %}
+        </table>
+        <h2> Other User's Travel Plans </h2>
+        <table style="width:100%">
+            <tr> 
+                <th> Name </th>
+                <th> Destination </th>
+                <th> Travel Start Date </th>
+                <th> Travel End Date </th>
+                <th> Do you want to Join? </th>
+            </tr>
+            {% for plan in all_plans %}
+                {% if plan.owner_id.id != current_user.id %}
+                    {% if not plan.id in joining %}
+                        <tr> 
+                            <th> {{ plan.owner_id.name }} </th>
+                            <th> <a href="{% url 'belt_app:show' id=plan.id %}"> {{ plan.destination }} </a> </th>
+                            <th> {{ plan.date_from }} </th>
+                            <th> {{ plan.date_to }} </th>
+                            <th> <a href="{% url 'belt_app:join' join_id=plan.id %}"> Join </a> </th>
+                        </tr>
+                    {% endif %}
+                {% endif %}
+            {% endfor %}
+        </table>
+        <a href="{% url 'belt_app:add' %}"> Add Travel Plan </a>
+    </body>
+</html>

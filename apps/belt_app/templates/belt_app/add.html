@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en"> 
+    <head> 
+        <meta charset="UTF-8">
+        <title> Black Belt </title>
+    </head>
+    <body>
+        <h1> Add a Trip </h1>
+        {% if messages %}
+            {% for message in messages %}
+                <p> {{ message }} </p>
+            {% endfor %}
+        {% endif %}
+        <form action="{% url 'belt_app:add_trip' %}" method="POST"> 
+            {% csrf_token %}
+            <label> Destination: </label>
+            <input type="text" name="destination">
+            <label> Description: </label>
+            <input type="text" name="description">
+            <label> Date From: </label>
+            <input type="date" name="date_from">
+            <label> Date To: </label>
+            <input type="date" name="date_to">
+            <input type="submit" value="Add">
+        </form>
+    </body>
+</html>

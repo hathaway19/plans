@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en"> 
+    <head> 
+        <meta charset="UTF-8">
+        <title> Black Belt </title>
+    </head>
+    <body>
+        <a id="logout" href="{% url 'login_app:logout' %}"> Logout </a>
+        <a id="home" href="{% url 'belt_app:index' %}"> Home </a>
+        <h1> {{ plan.destination }} </h1>
+        <h4> Planned By: {{ plan.owner_id.name }} </h4>
+        <h4> Description: {{ plan.description }} </h4>
+        <h4> Travel Date From: {{ plan.date_from }} </h4>
+        <h4> Travel Date To: {{ plan.date_to }} </h4>
+        <h1> Other Users' joining this trip </h1>
+        {% for user in attendees %}
+            <h4> {{ user.name }} </h4>
+        {% endfor %}
+    </body>
+</html>
